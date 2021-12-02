@@ -16,6 +16,7 @@
 		079B631727530FB700DB8E08 /* ForecastTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 079B631627530FB700DB8E08 /* ForecastTests.swift */; };
 		079B632127530FB700DB8E08 /* ForecastUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 079B632027530FB700DB8E08 /* ForecastUITests.swift */; };
 		079B632327530FB700DB8E08 /* ForecastUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 079B632227530FB700DB8E08 /* ForecastUITestsLaunchTests.swift */; };
+		079B633027531D1200DB8E08 /* Forecast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 079B632F27531D1200DB8E08 /* Forecast.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		079B631C27530FB700DB8E08 /* ForecastUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ForecastUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		079B632027530FB700DB8E08 /* ForecastUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastUITests.swift; sourceTree = "<group>"; };
 		079B632227530FB700DB8E08 /* ForecastUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		079B632F27531D1200DB8E08 /* Forecast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Forecast.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +104,7 @@
 				079B62FF27530FB500DB8E08 /* AppDelegate.swift */,
 				079B630127530FB500DB8E08 /* SceneDelegate.swift */,
 				079B630327530FB500DB8E08 /* ViewController.swift */,
+				079B632F27531D1200DB8E08 /* Forecast.swift */,
 				079B630527530FB500DB8E08 /* Main.storyboard */,
 				079B630827530FB700DB8E08 /* Assets.xcassets */,
 				079B630A27530FB700DB8E08 /* LaunchScreen.storyboard */,
@@ -258,6 +261,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				079B633027531D1200DB8E08 /* Forecast.swift in Sources */,
 				079B630427530FB500DB8E08 /* ViewController.swift in Sources */,
 				079B630027530FB500DB8E08 /* AppDelegate.swift in Sources */,
 				079B630227530FB500DB8E08 /* SceneDelegate.swift in Sources */,
