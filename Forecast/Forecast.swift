@@ -32,13 +32,13 @@ struct ForecastsResponse: Decodable {
     }
     
     struct Forecast: Decodable {
-        // To-Do: Extract 'isDay" Bool from json so that we can add dark/light mode settings
         var maxTempF: Int
         var minTempF: Int
         var icon: String
         var sunriseISO: String
         var sunsetISO: String
         var weather: String
+        var isDay: Bool
     }
     
     init(from decoder: Decoder) throws {

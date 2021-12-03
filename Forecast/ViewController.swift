@@ -13,6 +13,7 @@ import UIKit
 // Experiment with async/await
 // Learn to use Codable to extract Swift objects from data ✅
 // Add robust error handling for networking class
+// Handle trait changes successfully
 
 class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     
@@ -64,7 +65,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 for forecast in forecastData.forecasts {
                     forecasts.append(forecast)
                 }
-                print(forecasts.count)
                 completion(forecasts)
             } catch let error {
                 print("Error decoding JSON: \(error)")
@@ -80,7 +80,11 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "forecastCell", for: indexPath)
-        cell.backgroundColor = .blue
+        let icon = UIImage(imageLiteralResourceName: forecasts[indexPath.row].icon)
+        let iconImageView = UIImageView(image: icon)
+        cell.contentView.addSubview(iconImageView)
+        
+      
         return cell
     }
 }
