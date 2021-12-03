@@ -8,7 +8,7 @@
 import UIKit
 
 // Learning Objectives:
-// Learn best way to store private keys & api endpoints
+// Learn best way to store private keys & api endpoints ✅
 // Determine best architecture/design pattern for networking class (Coordinator?)
 // Experiment with async/await
 // Learn to use Codable to extract Swift objects from data ✅
@@ -17,13 +17,14 @@ import UIKit
 
 class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     
-    
     @IBOutlet weak var forecastsCollectionView: UICollectionView!
     var forecasts: [ForecastsResponse.Forecast] = []
     
-    private let clientID = "zYYyvxefumON5t3u9JVgB"
-    private let clientSecret = "bMXflvpaACZi1pC0DU2N4KyuDOHDFxp94FsMm18J"
     private var forecastsEndpoint: String {
+        guard let clientID = Bundle.main.infoDictionary?["CLIENT_ID"],
+              let clientSecret = Bundle.main.infoDictionary?["CLIENT_SECRET"] else {
+            return ""
+        }
         return "http://api.aerisapi.com/forecasts/11235?client_id=\(clientID)&client_secret=\(clientSecret)"
     }
     
@@ -84,7 +85,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         let iconImageView = UIImageView(image: icon)
         cell.contentView.addSubview(iconImageView)
         
-      
         return cell
     }
 }

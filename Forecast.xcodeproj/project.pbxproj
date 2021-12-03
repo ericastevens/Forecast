@@ -37,6 +37,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		074F4B012759B3C4000F7307 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		079B62FC27530FB500DB8E08 /* Forecast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Forecast.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		079B62FF27530FB500DB8E08 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		079B630127530FB500DB8E08 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -81,6 +82,7 @@
 		079B62F327530FB500DB8E08 = {
 			isa = PBXGroup;
 			children = (
+				074F4B012759B3C4000F7307 /* Config.xcconfig */,
 				079B62FE27530FB500DB8E08 /* Forecast */,
 				079B631527530FB700DB8E08 /* ForecastTests */,
 				079B631F27530FB700DB8E08 /* ForecastUITests */,
@@ -322,6 +324,7 @@
 /* Begin XCBuildConfiguration section */
 		079B632427530FB700DB8E08 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 074F4B012759B3C4000F7307 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -383,6 +386,7 @@
 		};
 		079B632527530FB700DB8E08 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 074F4B012759B3C4000F7307 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
