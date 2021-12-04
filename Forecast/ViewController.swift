@@ -18,7 +18,11 @@ import UIKit
 // Practice unit testing
 // NEXT: Move to DiffableDataSource
 
-class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+enum Section {
+    case main
+}
+
+class ViewController: UIViewController {
     
     // MARK: Outlets
     
@@ -27,6 +31,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     // MARK: Properties
     
     var forecasts: [Forecast] = []
+    private var snapshot = NSDiffableDataSourceSnapshot<Section, Forecast>()
+    private var diffableDataSource: UICollectionViewDiffableDataSource<Section, Forecast>?
     
     private var forecastsEndpoint: String {
         guard let clientID = Bundle.main.infoDictionary?["CLIENT_ID"],
@@ -37,36 +43,51 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     // MARK: Lifecycle
-
+        
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureCollectionViewLayout()
         loadCollectionViewData()
+        configureDiffableDataSource()
     }
     
     // MARK: Helper Methods
     
+    private func configureDiffableDataSource() {
+        diffableDataSource = UICollectionViewDiffableDataSource<Section, Forecast>(collectionView: forecastsCollectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "forecastCell", for: indexPath)
+            let icon = UIImage(imageLiteralResourceName: self.forecasts[indexPath.row].icon)
+            let iconImageView = UIImageView(image: icon)
+            cell.contentView.addSubview(iconImageView)
+            
+            return cell
+        })
+        forecastsCollectionView.dataSource = diffableDataSource
+    }
+    
     /// Configures the collection view as a group list type
-    func configureCollectionViewLayout() {
+    private func configureCollectionViewLayout() {
         let config = UICollectionLayoutListConfiguration(appearance: .plain)
         forecastsCollectionView.collectionViewLayout = UICollectionViewCompositionalLayout.list(using: config)
     }
     
-    func loadCollectionViewData() {
+    /// Adds Forecast Items to DataSourceSnapshot, and applies snapshot of current data set to our diffabable data source
+    private func loadCollectionViewData() {
         guard let endpointURL = URL(string: forecastsEndpoint) else { return }
         requestWeeklyForecast(from: endpointURL) { forecasts in
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
                 self.forecasts = forecasts
-                self.forecastsCollectionView.reloadData()
+                self.snapshot.appendSections([Section.main])
+                self.snapshot.appendItems(self.forecasts, toSection: .main)
+                self.diffableDataSource?.apply(self.snapshot)
             }
         }
-        forecastsCollectionView.dataSource = self
     }
     
     // MARK: Networking
     
-    func requestWeeklyForecast(from endpointURL: URL, completion: @escaping ([Forecast]) -> ()) {
+    /// Loads 7-day orecast data from Aeries API, completion contains array of Forecast objects
+    private func requestWeeklyForecast(from endpointURL: URL, completion: @escaping ([Forecast]) -> ()) {
         let forecastsRequest = URLRequest(url: endpointURL)
         
         URLSession.shared.dataTask(with: forecastsRequest, completionHandler: { (data: Data?, response: URLResponse?, error: Error?) in
@@ -86,21 +107,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 print("Error decoding JSON: \(error)")
             }
         }).resume()
-    }
-    
-    // MARK: CollectionView Data Source Methods
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.forecasts.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "forecastCell", for: indexPath)
-        let icon = UIImage(imageLiteralResourceName: forecasts[indexPath.row].icon)
-        let iconImageView = UIImageView(image: icon)
-        cell.contentView.addSubview(iconImageView)
-        
-        return cell
     }
 }
 

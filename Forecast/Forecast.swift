@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Forecast: Decodable {
+struct Forecast: Decodable, Hashable {
     var maxTempF: Int
     var minTempF: Int
     var icon: String
