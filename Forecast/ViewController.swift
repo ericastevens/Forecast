@@ -14,11 +14,19 @@ import UIKit
 // Learn to use Codable to extract Swift objects from data ✅
 // Add robust error handling for networking class
 // Handle trait changes successfully
+// Add thorough code documentation
+// Practice unit testing
+// NEXT: Move to DiffableDataSource
 
 class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     
+    // MARK: Outlets
+    
     @IBOutlet weak var forecastsCollectionView: UICollectionView!
-    var forecasts: [ForecastsResponse.Forecast] = []
+    
+    // MARK: Properties
+    
+    var forecasts: [Forecast] = []
     
     private var forecastsEndpoint: String {
         guard let clientID = Bundle.main.infoDictionary?["CLIENT_ID"],
@@ -32,10 +40,17 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureCollectionViewLayout()
         loadCollectionViewData()
     }
     
     // MARK: Helper Methods
+    
+    /// Configures the collection view as a group list type
+    func configureCollectionViewLayout() {
+        let config = UICollectionLayoutListConfiguration(appearance: .plain)
+        forecastsCollectionView.collectionViewLayout = UICollectionViewCompositionalLayout.list(using: config)
+    }
     
     func loadCollectionViewData() {
         guard let endpointURL = URL(string: forecastsEndpoint) else { return }
@@ -51,10 +66,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     // MARK: Networking
     
-    func requestWeeklyForecast(from endpointURL: URL, completion: @escaping ([ForecastsResponse.Forecast]) -> ()) {
+    func requestWeeklyForecast(from endpointURL: URL, completion: @escaping ([Forecast]) -> ()) {
         let forecastsRequest = URLRequest(url: endpointURL)
         
-        let _ = URLSession.shared.dataTask(with: forecastsRequest, completionHandler: { (data: Data?, response: URLResponse?, error: Error?) in
+        URLSession.shared.dataTask(with: forecastsRequest, completionHandler: { (data: Data?, response: URLResponse?, error: Error?) in
             guard let data = data,
                   error == nil else {
                       print("Error downlading data from server: \(error!)")
@@ -62,7 +77,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                   }
             do {
                 let forecastData = try JSONDecoder().decode(ForecastsResponse.self, from: data)
-                var forecasts: [ForecastsResponse.Forecast] = []
+                var forecasts: [Forecast] = []
                 for forecast in forecastData.forecasts {
                     forecasts.append(forecast)
                 }

@@ -7,9 +7,19 @@
 
 import Foundation
 
+struct Forecast: Decodable {
+    var maxTempF: Int
+    var minTempF: Int
+    var icon: String
+    var sunriseISO: String
+    var sunsetISO: String
+    var weather: String
+    var isDay: Bool
+}
+
 struct ForecastsResponse: Decodable {
     var success: Bool
-    var forecasts: [ForecastsResponse.Forecast]
+    var forecasts: [Forecast]
     
     enum ResponseCodingKeys: String, CodingKey {
         case forecasts = "response"
@@ -17,7 +27,7 @@ struct ForecastsResponse: Decodable {
     }
     
     private struct InnerResponse: Decodable {
-        var periods: [ForecastsResponse.Forecast]
+        var periods: [Forecast]
         var interval: String
         
         enum InnerCodingKeys: String, CodingKey {
@@ -31,21 +41,11 @@ struct ForecastsResponse: Decodable {
         }
     }
     
-    struct Forecast: Decodable {
-        var maxTempF: Int
-        var minTempF: Int
-        var icon: String
-        var sunriseISO: String
-        var sunsetISO: String
-        var weather: String
-        var isDay: Bool
-    }
-    
     init(from decoder: Decoder) throws {
         let responseContainer = try decoder.container(keyedBy: ResponseCodingKeys.self)
         self.success = try responseContainer.decode(Bool.self, forKey: .success)
         let innerResponse = try responseContainer.decode([ForecastsResponse.InnerResponse].self, forKey: .forecasts)
-        var forecasts: [ForecastsResponse.Forecast] = []
+        var forecasts: [Forecast] = []
         for infoDict in innerResponse {
             for forecast in infoDict.periods {
                 forecasts.append(forecast)
