@@ -19,18 +19,17 @@ import UIKit
 // NEXT: Move to DiffableDataSource
 
 enum Section {
-    case main
+    case forecast
 }
 
 class ViewController: UIViewController {
     
     // MARK: Outlets
     
-    @IBOutlet weak var forecastsCollectionView: UICollectionView!
+    @IBOutlet private weak var forecastsCollectionView: UICollectionView!
     
     // MARK: Properties
     
-    var forecasts: [Forecast] = []
     private var snapshot = NSDiffableDataSourceSnapshot<Section, Forecast>()
     private var diffableDataSource: UICollectionViewDiffableDataSource<Section, Forecast>?
     
@@ -52,10 +51,11 @@ class ViewController: UIViewController {
     
     // MARK: Helper Methods
     
+    /// Configures collection view cell with using Dffable Data Source configurations
     private func configureDiffableDataSource() {
-        diffableDataSource = UICollectionViewDiffableDataSource<Section, Forecast>(collectionView: forecastsCollectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
+        diffableDataSource = UICollectionViewDiffableDataSource<Section, Forecast>(collectionView: forecastsCollectionView, cellProvider: { collectionView, indexPath, forecast in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "forecastCell", for: indexPath)
-            let icon = UIImage(imageLiteralResourceName: self.forecasts[indexPath.row].icon)
+            let icon = UIImage(imageLiteralResourceName: forecast.icon)
             let iconImageView = UIImageView(image: icon)
             cell.contentView.addSubview(iconImageView)
             
@@ -76,9 +76,8 @@ class ViewController: UIViewController {
         requestWeeklyForecast(from: endpointURL) { forecasts in
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
-                self.forecasts = forecasts
-                self.snapshot.appendSections([Section.main])
-                self.snapshot.appendItems(self.forecasts, toSection: .main)
+                self.snapshot.appendSections([Section.forecast])
+                self.snapshot.appendItems(forecasts, toSection: .forecast)
                 self.diffableDataSource?.apply(self.snapshot)
             }
         }
