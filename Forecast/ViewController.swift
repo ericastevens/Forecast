@@ -7,17 +7,6 @@
 
 import UIKit
 
-// Learning Objectives:
-// Learn best way to store private keys & api endpoints ✅
-// Determine best architecture/design pattern for networking class (Coordinator?)
-// Experiment with async/await
-// Learn to use Codable to extract Swift objects from data ✅
-// Add robust error handling for networking class
-// Handle trait changes successfully
-// Add thorough code documentation
-// Practice unit testing
-// Move to DiffableDataSource ✅
-
 enum Section {
     case forecast
 }
@@ -55,7 +44,7 @@ class ViewController: UIViewController {
     
     // MARK: Helper Methods
     
-    /// Configures collection view cell with using Dffable Data Source configurations
+    /// Configures collection view cell using Dffable Data Source cell provider
     private func configureDiffableDataSource() {
         diffableDataSource = UICollectionViewDiffableDataSource<Section, Forecast>(collectionView: forecastsCollectionView, cellProvider: { collectionView, indexPath, forecast in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "forecastCell", for: indexPath)
@@ -69,7 +58,7 @@ class ViewController: UIViewController {
         forecastsCollectionView.dataSource = diffableDataSource
     }
     
-    /// Configures the collection view layout
+    /// Configures the collection view compostitional layout
     private func configureCollectionViewLayout() {
         let itemSize = NSCollectionLayoutSize(widthDimension:  .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -82,7 +71,7 @@ class ViewController: UIViewController {
         forecastsCollectionView.collectionViewLayout = UICollectionViewCompositionalLayout(section: section)
     }
     
-    /// Adds Forecast Items to DataSourceSnapshot, and applies snapshot of current data set to our diffabable data source
+    /// Adds Forecast Items to DataSourceSnapshot, and applies snapshot of current data set to our diffabable data source, configures Today's Forecase view
     private func loadCollectionViewData() {
         guard let endpointURL = URL(string: forecastsEndpoint) else { return }
         requestWeeklyForecast(from: endpointURL) { forecasts in
