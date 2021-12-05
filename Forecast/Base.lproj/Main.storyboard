@@ -12,14 +12,13 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Forecast" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="uNp-Py-GTl">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="862"/>
+                                <rect key="frame" x="0.0" y="384" width="414" height="478"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Qs8-8r-oB6">
                                     <size key="itemSize" width="128" height="128"/>
@@ -38,22 +37,62 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uuE-Wz-bYc">
+                                <rect key="frame" x="5" y="44" width="404" height="332"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7gb-ZM-lQc">
+                                        <rect key="frame" x="138" y="52.5" width="128" height="128"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="128" id="O8Q-G4-efQ"/>
+                                            <constraint firstAttribute="height" constant="128" id="PbQ-gs-3jE"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Weather Description" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6uK-zE-EkX">
+                                        <rect key="frame" x="124" y="188.5" width="156" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Forecast Location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NQ8-7m-qam">
+                                        <rect key="frame" x="76.5" y="12" width="251.5" height="39.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="33"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="7gb-ZM-lQc" firstAttribute="top" secondItem="NQ8-7m-qam" secondAttribute="bottom" constant="1" id="45D-Hh-Dh4"/>
+                                    <constraint firstItem="6uK-zE-EkX" firstAttribute="centerX" secondItem="7gb-ZM-lQc" secondAttribute="centerX" id="5wx-fY-OcB"/>
+                                    <constraint firstItem="7gb-ZM-lQc" firstAttribute="centerX" secondItem="uuE-Wz-bYc" secondAttribute="centerX" id="MCr-7j-Teg"/>
+                                    <constraint firstItem="NQ8-7m-qam" firstAttribute="centerX" secondItem="uuE-Wz-bYc" secondAttribute="centerX" id="y5I-pT-mAl"/>
+                                    <constraint firstItem="6uK-zE-EkX" firstAttribute="top" secondItem="7gb-ZM-lQc" secondAttribute="bottom" constant="8" symbolic="YES" id="zPi-Xn-rq3"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="uuE-Wz-bYc" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="2Xi-Za-9qF"/>
+                            <constraint firstItem="uuE-Wz-bYc" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="69y-Ea-KTX"/>
                             <constraint firstItem="uNp-Py-GTl" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Lhp-AR-4HI"/>
-                            <constraint firstItem="uNp-Py-GTl" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="-44" id="QIB-R9-aYF"/>
+                            <constraint firstItem="NQ8-7m-qam" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="12" id="Ny9-sz-eO9"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="uNp-Py-GTl" secondAttribute="trailing" id="R4S-Sp-U29"/>
+                            <constraint firstItem="uuE-Wz-bYc" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.370536" id="ROe-jb-mJ2"/>
+                            <constraint firstItem="uNp-Py-GTl" firstAttribute="top" secondItem="uuE-Wz-bYc" secondAttribute="bottom" constant="8" symbolic="YES" id="Sqn-ZA-eCV"/>
+                            <constraint firstItem="uuE-Wz-bYc" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.975845" id="aj1-3m-fQQ"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="uNp-Py-GTl" secondAttribute="bottom" id="n7p-Bv-Cbe"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="forecastsCollectionView" destination="uNp-Py-GTl" id="O8i-cy-VZZ"/>
+                        <outlet property="todaysForecastIconImageView" destination="7gb-ZM-lQc" id="1s4-vZ-Oh5"/>
+                        <outlet property="todaysWeatherDescription" destination="6uK-zE-EkX" id="EzA-iJ-O2r"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="122" y="64"/>
+            <point key="canvasLocation" x="121.73913043478262" y="63.616071428571423"/>
         </scene>
     </scenes>
     <resources>

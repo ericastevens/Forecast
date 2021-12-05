@@ -16,7 +16,7 @@ import UIKit
 // Handle trait changes successfully
 // Add thorough code documentation
 // Practice unit testing
-// NEXT: Move to DiffableDataSource
+// Move to DiffableDataSource ✅
 
 enum Section {
     case forecast
@@ -27,6 +27,9 @@ class ViewController: UIViewController {
     // MARK: Outlets
     
     @IBOutlet private weak var forecastsCollectionView: UICollectionView!
+    
+    @IBOutlet weak var todaysForecastIconImageView: UIImageView!
+    @IBOutlet weak var todaysWeatherDescription: UILabel!
     
     // MARK: Properties
     
@@ -47,6 +50,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         loadCollectionViewData()
         configureDiffableDataSource()
+        configureCollectionViewLayout()
     }
     
     // MARK: Helper Methods
@@ -55,19 +59,27 @@ class ViewController: UIViewController {
     private func configureDiffableDataSource() {
         diffableDataSource = UICollectionViewDiffableDataSource<Section, Forecast>(collectionView: forecastsCollectionView, cellProvider: { collectionView, indexPath, forecast in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "forecastCell", for: indexPath)
-            let icon = UIImage(imageLiteralResourceName: forecast.icon)
+            let icon = UIImage(imageLiteralResourceName: "\(forecast.icon)@2x")
             let iconImageView = UIImageView(image: icon)
             cell.contentView.addSubview(iconImageView)
+            cell.backgroundColor = .purple
             
             return cell
         })
         forecastsCollectionView.dataSource = diffableDataSource
     }
     
-    /// Configures the collection view as a group list type
+    /// Configures the collection view layout
     private func configureCollectionViewLayout() {
-        let config = UICollectionLayoutListConfiguration(appearance: .plain)
-        forecastsCollectionView.collectionViewLayout = UICollectionViewCompositionalLayout.list(using: config)
+        let itemSize = NSCollectionLayoutSize(widthDimension:  .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16)
+
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(0.25))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize:  groupSize, subitems: [item])
+
+        let section = NSCollectionLayoutSection(group: group)
+        forecastsCollectionView.collectionViewLayout = UICollectionViewCompositionalLayout(section: section)
     }
     
     /// Adds Forecast Items to DataSourceSnapshot, and applies snapshot of current data set to our diffabable data source
@@ -76,6 +88,14 @@ class ViewController: UIViewController {
         requestWeeklyForecast(from: endpointURL) { forecasts in
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
+                var forecasts = forecasts
+                
+                // Configure Today's Weather View
+                let todaysForecast = forecasts.removeFirst()
+                self.todaysForecastIconImageView.image = UIImage(imageLiteralResourceName: "\(todaysForecast.icon)@2x")
+                self.todaysWeatherDescription.text = todaysForecast.weather
+                
+                // Configure and apply snapshots to data source
                 self.snapshot.appendSections([Section.forecast])
                 self.snapshot.appendItems(forecasts, toSection: .forecast)
                 self.diffableDataSource?.apply(self.snapshot)

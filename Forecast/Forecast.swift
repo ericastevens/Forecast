@@ -15,6 +15,7 @@ struct Forecast: Decodable, Hashable {
     var sunsetISO: String
     var weather: String
     var isDay: Bool
+//    var location: String // To-Do: Extract location from profile
 }
 
 struct ForecastsResponse: Decodable {
@@ -29,15 +30,18 @@ struct ForecastsResponse: Decodable {
     private struct InnerResponse: Decodable {
         var periods: [Forecast]
         var interval: String
+//        var profile: String
         
         enum InnerCodingKeys: String, CodingKey {
             case periods, interval
+//            case profile
         }
         
         init(from decoder: Decoder) throws {
             let innerResponseContainer = try decoder.container(keyedBy: InnerCodingKeys.self)
             self.interval = try innerResponseContainer.decode(String.self, forKey: .interval)
             self.periods = try innerResponseContainer.decode([Forecast].self, forKey: .periods)
+//            self.profile = try innerResponseContainer.decode(String.self, forKey: .profile)
         }
     }
     
