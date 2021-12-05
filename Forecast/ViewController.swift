@@ -15,13 +15,8 @@ class ViewController: UIViewController {
     
     // MARK: Outlets
     
+    @IBOutlet weak var todaysForecastView: TodaysForecastView!
     @IBOutlet private weak var forecastsCollectionView: UICollectionView!
-    @IBOutlet weak var todaysForecastIconImageView: UIImageView!
-    @IBOutlet weak var todaysWeatherDescription: UILabel!
-    @IBOutlet weak var highTempLabel: UILabel!
-    @IBOutlet weak var lowTempLabel: UILabel!
-    @IBOutlet weak var sunriseTimeLabel: UILabel!
-    @IBOutlet weak var sunsetTimeLabel: UILabel!
 
     // MARK: Properties
     
@@ -40,6 +35,8 @@ class ViewController: UIViewController {
         
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .offWhite
+        forecastsCollectionView.backgroundColor = .offWhite
         loadCollectionViewData()
         configureDiffableDataSource()
         configureCollectionViewLayout()
@@ -70,8 +67,6 @@ class ViewController: UIViewController {
             let icon = UIImage(imageLiteralResourceName: "\(forecast.icon)@2x")
             let iconImageView = UIImageView(image: icon)
             cell.contentView.addSubview(iconImageView)
-            cell.backgroundColor = .purple
-            
             return cell
         })
         forecastsCollectionView.dataSource = diffableDataSource
@@ -100,12 +95,12 @@ class ViewController: UIViewController {
                 
                 // Configure Today's Weather View
                 let todaysForecast = forecasts.removeFirst()
-                self.todaysForecastIconImageView.image = UIImage(imageLiteralResourceName: "\(todaysForecast.icon)@2x")
-                self.todaysWeatherDescription.text = todaysForecast.weather
-                self.lowTempLabel.text = "\(todaysForecast.minTempF)\u{00B0}F"
-                self.highTempLabel.text = "\(todaysForecast.maxTempF)\u{00B0}F"
-                self.sunriseTimeLabel.text = self.formattedTime(from: todaysForecast.sunriseISO)
-                self.sunsetTimeLabel.text = self.formattedTime(from: todaysForecast.sunsetISO)
+                self.todaysForecastView.todaysForecastIconImageView.image = UIImage(imageLiteralResourceName: "\(todaysForecast.icon)@2x")
+                self.todaysForecastView.todaysWeatherDescription.text = todaysForecast.weather
+                self.todaysForecastView.lowTempLabel.text = "\(todaysForecast.minTempF)\u{00B0}F"
+                self.todaysForecastView.highTempLabel.text = "\(todaysForecast.maxTempF)\u{00B0}F"
+                self.todaysForecastView.sunriseTimeLabel.text = self.formattedTime(from: todaysForecast.sunriseISO)
+                self.todaysForecastView.sunsetTimeLabel.text = self.formattedTime(from: todaysForecast.sunsetISO)
   
                 // Configure and apply snapshots to data source
                 self.snapshot.appendSections([Section.forecast])
@@ -139,5 +134,9 @@ class ViewController: UIViewController {
             }
         }).resume()
     }
+}
+
+extension UIColor {
+    static let offWhite = UIColor.init(red: 235/255, green: 235/255, blue: 235/255, alpha: 1)
 }
 
