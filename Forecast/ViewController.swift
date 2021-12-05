@@ -16,10 +16,13 @@ class ViewController: UIViewController {
     // MARK: Outlets
     
     @IBOutlet private weak var forecastsCollectionView: UICollectionView!
-    
     @IBOutlet weak var todaysForecastIconImageView: UIImageView!
     @IBOutlet weak var todaysWeatherDescription: UILabel!
-    
+    @IBOutlet weak var highTempLabel: UILabel!
+    @IBOutlet weak var lowTempLabel: UILabel!
+    @IBOutlet weak var sunriseTimeLabel: UILabel!
+    @IBOutlet weak var sunsetTimeLabel: UILabel!
+
     // MARK: Properties
     
     private var snapshot = NSDiffableDataSourceSnapshot<Section, Forecast>()
@@ -43,6 +46,22 @@ class ViewController: UIViewController {
     }
     
     // MARK: Helper Methods
+    
+    // Formats ISO date strings into an `H:mm A` format
+    private func formattedTime(from dateString: String) -> String {
+        let formatter = ISO8601DateFormatter()
+        var formattedDateString: String = ""
+        if let date = formatter.date(from: dateString) {
+            let formattedDate = date.formatted(.dateTime)
+            let dateString = formattedDate.description
+            var dateStringComponents = dateString.components(separatedBy: " ")
+            dateStringComponents.removeFirst()
+            for component in dateStringComponents {
+                formattedDateString.append(contentsOf: component)
+            }
+        }
+        return formattedDateString
+    }
     
     /// Configures collection view cell using Dffable Data Source cell provider
     private func configureDiffableDataSource() {
@@ -83,7 +102,11 @@ class ViewController: UIViewController {
                 let todaysForecast = forecasts.removeFirst()
                 self.todaysForecastIconImageView.image = UIImage(imageLiteralResourceName: "\(todaysForecast.icon)@2x")
                 self.todaysWeatherDescription.text = todaysForecast.weather
-                
+                self.lowTempLabel.text = "\(todaysForecast.minTempF)\u{00B0}F"
+                self.highTempLabel.text = "\(todaysForecast.maxTempF)\u{00B0}F"
+                self.sunriseTimeLabel.text = self.formattedTime(from: todaysForecast.sunriseISO)
+                self.sunsetTimeLabel.text = self.formattedTime(from: todaysForecast.sunsetISO)
+  
                 // Configure and apply snapshots to data source
                 self.snapshot.appendSections([Section.forecast])
                 self.snapshot.appendItems(forecasts, toSection: .forecast)
