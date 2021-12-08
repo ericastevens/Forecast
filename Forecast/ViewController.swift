@@ -16,7 +16,7 @@ class ViewController: UIViewController {
     // MARK: Outlets
     
     @IBOutlet weak var todaysForecastView: TodaysForecastView!
-    @IBOutlet private weak var forecastsCollectionView: UICollectionView!
+    @IBOutlet private var forecastsCollectionView: UICollectionView!
 
     // MARK: Properties
     
@@ -37,6 +37,8 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .offWhite
         forecastsCollectionView.backgroundColor = .offWhite
+        forecastsCollectionView.register(UINib(nibName: "ForecastCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "forecastCell")
+//        forecastsCollectionView.register(ForecastCollectionViewCell.self, forCellWithReuseIdentifier: "forecastCell")
         loadCollectionViewData()
         configureDiffableDataSource()
         configureCollectionViewLayout()
@@ -44,7 +46,7 @@ class ViewController: UIViewController {
     
     // MARK: Helper Methods
     
-    // Formats ISO date strings into an `H:mm A` format
+    /// Formats ISO date strings into an `H:mm A` format
     private func formattedTime(from dateString: String) -> String {
         let formatter = ISO8601DateFormatter()
         var formattedDateString: String = ""
@@ -63,10 +65,46 @@ class ViewController: UIViewController {
     /// Configures collection view cell using Dffable Data Source cell provider
     private func configureDiffableDataSource() {
         diffableDataSource = UICollectionViewDiffableDataSource<Section, Forecast>(collectionView: forecastsCollectionView, cellProvider: { collectionView, indexPath, forecast in
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "forecastCell", for: indexPath)
+            
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "forecastCell", for: indexPath) as! ForecastCollectionViewCell
+            
+            // Add nuemorphism to cells
+            // To-Do: Refactor this, so that it's cleaner
+            cell.backgroundColor = .clear
+            cell.contentView.frame = cell.bounds
+            cell.layer.cornerRadius = 15
+            cell.contentView.layer.cornerRadius = 15
+            cell.contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+
+            let darkShadow = CALayer()
+            let lightShadow = CALayer()
+            darkShadow.frame = CGRect(origin: cell.bounds.origin, size: CGSize(width: cell.bounds.width * 0.98, height: cell.bounds.height * 0.92))
+            darkShadow.cornerRadius = 15
+            darkShadow.backgroundColor = UIColor.offWhite.cgColor
+            darkShadow.shadowColor = UIColor.black.withAlphaComponent(0.2).cgColor
+            darkShadow.shadowOffset = CGSize(width: 5, height: 5)
+            darkShadow.shadowOpacity = 1
+            darkShadow.shadowRadius = 15
+            cell.layer.insertSublayer(darkShadow, at: 0)
+            lightShadow.frame = CGRect(origin: cell.bounds.origin, size: CGSize(width: cell.bounds.width * 0.98, height: cell.bounds.height * 0.92))
+            lightShadow.cornerRadius = 15
+            lightShadow.backgroundColor = UIColor.offWhite.cgColor
+            lightShadow.shadowColor = UIColor.white.withAlphaComponent(0.9).cgColor
+            lightShadow.shadowOffset = CGSize(width: 50, height: 50)
+            lightShadow.shadowOpacity = 1
+            lightShadow.shadowRadius = 15
+            cell.layer.insertSublayer(lightShadow, at: 0)
+            
             let icon = UIImage(imageLiteralResourceName: "\(forecast.icon)@2x")
-            let iconImageView = UIImageView(image: icon)
-            cell.contentView.addSubview(iconImageView)
+//            let iconImageView = UIImageView(image: icon)
+//            cell.contentView.addSubview(iconImageView)
+            cell.weatherDescriptionLabel.text = forecast.weather
+            cell.sunriseTimeLabel.text = self.formattedTime(from: forecast.sunriseISO)
+            cell.sunsetTimeLabel.text = self.formattedTime(from: forecast.sunsetISO)
+            cell.iconImageView.image = icon
+            cell.highTempLabel.text = "\(forecast.maxTempF)\u{00B0}F"
+            cell.lowTempLabel.text = "\(forecast.minTempF)\u{00B0}F"
+
             return cell
         })
         forecastsCollectionView.dataSource = diffableDataSource
@@ -137,6 +175,6 @@ class ViewController: UIViewController {
 }
 
 extension UIColor {
-    static let offWhite = UIColor.init(red: 235/255, green: 235/255, blue: 235/255, alpha: 1)
+    static let offWhite = UIColor.init(red: 250/255, green: 250/255, blue: 250/255, alpha: 1)
 }
 

@@ -19,6 +19,8 @@
 		079B632127530FB700DB8E08 /* ForecastUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 079B632027530FB700DB8E08 /* ForecastUITests.swift */; };
 		079B632327530FB700DB8E08 /* ForecastUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 079B632227530FB700DB8E08 /* ForecastUITestsLaunchTests.swift */; };
 		079B633027531D1200DB8E08 /* Forecast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 079B632F27531D1200DB8E08 /* Forecast.swift */; };
+		07B85401275DB79F0059558A /* ForecastCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 07B85400275DB79F0059558A /* ForecastCollectionViewCell.xib */; };
+		07B85403275DB7E00059558A /* ForecastCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B85402275DB7E00059558A /* ForecastCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +58,8 @@
 		079B632027530FB700DB8E08 /* ForecastUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastUITests.swift; sourceTree = "<group>"; };
 		079B632227530FB700DB8E08 /* ForecastUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		079B632F27531D1200DB8E08 /* Forecast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Forecast.swift; sourceTree = "<group>"; };
+		07B85400275DB79F0059558A /* ForecastCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ForecastCollectionViewCell.xib; sourceTree = "<group>"; };
+		07B85402275DB7E00059558A /* ForecastCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,9 +90,6 @@
 		079B62F327530FB500DB8E08 = {
 			isa = PBXGroup;
 			children = (
-				07508A62275D41AD003B8037 /* TodaysForecastView.xib */,
-				07508A64275D4231003B8037 /* TodaysForecastView.swift */,
-				074F4B012759B3C4000F7307 /* Config.xcconfig */,
 				079B62FE27530FB500DB8E08 /* Forecast */,
 				079B631527530FB700DB8E08 /* ForecastTests */,
 				079B631F27530FB700DB8E08 /* ForecastUITests */,
@@ -111,12 +112,17 @@
 			children = (
 				079B62FF27530FB500DB8E08 /* AppDelegate.swift */,
 				079B630127530FB500DB8E08 /* SceneDelegate.swift */,
+				07508A64275D4231003B8037 /* TodaysForecastView.swift */,
 				079B630327530FB500DB8E08 /* ViewController.swift */,
 				079B632F27531D1200DB8E08 /* Forecast.swift */,
 				079B630527530FB500DB8E08 /* Main.storyboard */,
+				07508A62275D41AD003B8037 /* TodaysForecastView.xib */,
 				079B630827530FB700DB8E08 /* Assets.xcassets */,
 				079B630A27530FB700DB8E08 /* LaunchScreen.storyboard */,
+				074F4B012759B3C4000F7307 /* Config.xcconfig */,
 				079B630D27530FB700DB8E08 /* Info.plist */,
+				07B85400275DB79F0059558A /* ForecastCollectionViewCell.xib */,
+				07B85402275DB7E00059558A /* ForecastCollectionViewCell.swift */,
 			);
 			path = Forecast;
 			sourceTree = "<group>";
@@ -245,6 +251,7 @@
 				079B630C27530FB700DB8E08 /* LaunchScreen.storyboard in Resources */,
 				079B630927530FB700DB8E08 /* Assets.xcassets in Resources */,
 				07508A63275D41AD003B8037 /* TodaysForecastView.xib in Resources */,
+				07B85401275DB79F0059558A /* ForecastCollectionViewCell.xib in Resources */,
 				079B630727530FB500DB8E08 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -272,6 +279,7 @@
 			files = (
 				079B633027531D1200DB8E08 /* Forecast.swift in Sources */,
 				079B630427530FB500DB8E08 /* ViewController.swift in Sources */,
+				07B85403275DB7E00059558A /* ForecastCollectionViewCell.swift in Sources */,
 				079B630027530FB500DB8E08 /* AppDelegate.swift in Sources */,
 				079B630227530FB500DB8E08 /* SceneDelegate.swift in Sources */,
 				07508A65275D4231003B8037 /* TodaysForecastView.swift in Sources */,
