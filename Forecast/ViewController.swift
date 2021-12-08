@@ -46,20 +46,34 @@ class ViewController: UIViewController {
     // MARK: Helper Methods
     
     /// Formats ISO date strings into an `H:mm A` format
-    private func formattedTime(from dateString: String) -> String {
+    private func format(iso dateString: String, isDate: Bool = false) -> String {
         let formatter = ISO8601DateFormatter()
         var formattedDateString: String = ""
-        if let date = formatter.date(from: dateString) {
-            let formattedDate = date.formatted(.dateTime)
-            let dateString = formattedDate.description
-            var dateStringComponents = dateString.components(separatedBy: " ")
-            dateStringComponents.removeFirst()
-            for component in dateStringComponents {
-                formattedDateString.append(contentsOf: component)
+        
+        if isDate {
+            if let date = formatter.date(from: dateString) {
+                let formattedDate = date.formatted(.dateTime)
+                let dateString = formattedDate.description
+                let dateStringComponents = dateString.components(separatedBy: "/")
+                let month = dateStringComponents[0]
+                let day = dateStringComponents[1]
+                formattedDateString = "\(month)/\(day)"
             }
+            return formattedDateString
+        } else {
+            if let date = formatter.date(from: dateString) {
+                let formattedDate = date.formatted(.dateTime)
+                let dateString = formattedDate.description
+                var dateStringComponents = dateString.components(separatedBy: " ")
+                dateStringComponents.removeFirst()
+                for component in dateStringComponents {
+                    formattedDateString.append(contentsOf: component)
+                }
+            }
+            return formattedDateString
         }
-        return formattedDateString
     }
+
     
     /// Configures collection view cell using Dffable Data Source cell provider
     private func configureDiffableDataSource() {
@@ -94,12 +108,12 @@ class ViewController: UIViewController {
             
             let icon = UIImage(imageLiteralResourceName: "\(forecast.icon)@2x")
             cell.weatherDescriptionLabel.text = forecast.weather
-            cell.sunriseTimeLabel.text = self.formattedTime(from: forecast.sunriseISO)
-            cell.sunsetTimeLabel.text = self.formattedTime(from: forecast.sunsetISO)
+            cell.sunriseTimeLabel.text = self.format(iso: forecast.sunriseISO)
+            cell.sunsetTimeLabel.text = self.format(iso: forecast.sunsetISO)
             cell.iconImageView.image = icon
             cell.highTempLabel.text = "\(forecast.maxTempF)\u{00B0}F"
             cell.lowTempLabel.text = "\(forecast.minTempF)\u{00B0}F"
-//            cell.dateLabel.text = To-Do: Extract date from server response into Forecast model
+            cell.dateLabel.text = self.format(iso: forecast.dateTimeISO, isDate: true)
 
             return cell
         })
@@ -137,8 +151,8 @@ class ViewController: UIViewController {
                 self.todaysForecastView.todaysWeatherDescription.text = todaysForecast.weather
                 self.todaysForecastView.lowTempLabel.text = "\(todaysForecast.minTempF)\u{00B0}F"
                 self.todaysForecastView.highTempLabel.text = "\(todaysForecast.maxTempF)\u{00B0}F"
-                self.todaysForecastView.sunriseTimeLabel.text = self.formattedTime(from: todaysForecast.sunriseISO)
-                self.todaysForecastView.sunsetTimeLabel.text = self.formattedTime(from: todaysForecast.sunsetISO)
+                self.todaysForecastView.sunriseTimeLabel.text = self.format(iso: todaysForecast.sunriseISO)
+                self.todaysForecastView.sunsetTimeLabel.text = self.format(iso: todaysForecast.sunsetISO)
   
                 // Configure and apply snapshots to data source
                 self.snapshot.appendSections([Section.forecast])

@@ -15,6 +15,7 @@ struct Forecast: Decodable, Hashable {
     var sunsetISO: String
     var weather: String
     var isDay: Bool
+    var dateTimeISO: String
 //    var location: String // To-Do: Extract location from profile
 }
 
