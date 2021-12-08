@@ -18,6 +18,15 @@ class ForecastCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var sunriseTimeLabel: UILabel!
     @IBOutlet weak var sunsetTimeLabel: UILabel!
     
+    var darkShadow = CALayer()
+    var lightShadow = CALayer()
+    
+    override func prepareForReuse() {
+        iconImageView.image = nil
+        darkShadow.removeFromSuperlayer()
+        lightShadow.removeFromSuperlayer()
+    }
+    
     class func commonInit() {
         Bundle.main.loadNibNamed("ForecastCollectionViewCell", owner: self, options: nil)
     }
