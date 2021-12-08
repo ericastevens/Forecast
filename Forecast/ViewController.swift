@@ -15,8 +15,8 @@ class ViewController: UIViewController {
     
     // MARK: Outlets
     
-    @IBOutlet weak var todaysForecastView: TodaysForecastView!
-    @IBOutlet private var forecastsCollectionView: UICollectionView!
+    @IBOutlet private weak var todaysForecastView: TodaysForecastView!
+    @IBOutlet private weak var forecastsCollectionView: UICollectionView!
 
     // MARK: Properties
     
