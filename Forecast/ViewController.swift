@@ -38,7 +38,6 @@ class ViewController: UIViewController {
         view.backgroundColor = .offWhite
         forecastsCollectionView.backgroundColor = .offWhite
         forecastsCollectionView.register(UINib(nibName: "ForecastCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "forecastCell")
-//        forecastsCollectionView.register(ForecastCollectionViewCell.self, forCellWithReuseIdentifier: "forecastCell")
         loadCollectionViewData()
         configureDiffableDataSource()
         configureCollectionViewLayout()
@@ -90,20 +89,19 @@ class ViewController: UIViewController {
             lightShadow.cornerRadius = 15
             lightShadow.backgroundColor = UIColor.offWhite.cgColor
             lightShadow.shadowColor = UIColor.white.withAlphaComponent(0.9).cgColor
-            lightShadow.shadowOffset = CGSize(width: 50, height: 50)
+            lightShadow.shadowOffset = CGSize(width: -5, height: -5)
             lightShadow.shadowOpacity = 1
             lightShadow.shadowRadius = 15
             cell.layer.insertSublayer(lightShadow, at: 0)
             
             let icon = UIImage(imageLiteralResourceName: "\(forecast.icon)@2x")
-//            let iconImageView = UIImageView(image: icon)
-//            cell.contentView.addSubview(iconImageView)
             cell.weatherDescriptionLabel.text = forecast.weather
             cell.sunriseTimeLabel.text = self.formattedTime(from: forecast.sunriseISO)
             cell.sunsetTimeLabel.text = self.formattedTime(from: forecast.sunsetISO)
             cell.iconImageView.image = icon
             cell.highTempLabel.text = "\(forecast.maxTempF)\u{00B0}F"
             cell.lowTempLabel.text = "\(forecast.minTempF)\u{00B0}F"
+//            cell.dateLabel.text = To-Do: Extract date from server response into Forecast model
 
             return cell
         })
@@ -125,6 +123,10 @@ class ViewController: UIViewController {
     
     /// Adds Forecast Items to DataSourceSnapshot, and applies snapshot of current data set to our diffabable data source, configures Today's Forecase view
     private func loadCollectionViewData() {
+        // Load xib from bundle
+        ForecastCollectionViewCell.commonInit()
+        
+        // Make request from API for weekly forecast
         guard let endpointURL = URL(string: forecastsEndpoint) else { return }
         requestWeeklyForecast(from: endpointURL) { forecasts in
             DispatchQueue.main.async { [weak self] in
